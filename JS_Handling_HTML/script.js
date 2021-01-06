@@ -38,6 +38,17 @@ var crudApp = new (function () {
       tr.appendChild(th);
     }
 
+    // table data
+    for (var i = 0; i < this.myClass.length; i++) {
+      // table에 한 행 추가
+      tr = table.insertRow(-1);
+      // table header의 길이만큼 순회하며 그에 매칭되는 데이터 가져오기
+      for (var j = 0; j < this.col.length; j++) {
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = this.myClass[i][this.col[j]];
+      }
+    }
+
     var div = document.getElementById("container");
     div.innerHTML = "<h2>수강관리 앱<h2>";
     div.appendChild(table);
