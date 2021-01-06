@@ -70,6 +70,7 @@ var crudApp = new (function () {
       btSave.setAttribute("onclick", "crudApp.save(this)");
       this.td.appendChild(btSave);
 
+      // delete button
       this.td = document.createElement("td");
       tr.appendChild(this.td);
       var btDelete = document.createElement("input");
