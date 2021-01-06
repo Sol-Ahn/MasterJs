@@ -16,14 +16,46 @@ var crudApp = new (function () {
     // col에 table header에 해당하는 데이터를 삽입하는 코드
     // 비어있는 col 배열에 myClass 배열 속 객체들의 key값을 삽입
     for (var i = 0; i < this.myClass.length; i++) {
+      // 각 객체 속의 key값 순회
       for (var key in this.myClass[i]) {
         // key값을 col 배열에 담기
         // indexOf: 문자열 속에서 특정 문자열 검색
         if (this.col.indexOf(key) === -1) this.col.push(key);
       }
     }
+
+    // -----------------------------------------------------
+    var table = document.createElement("table"); // table 태그에 해당하는 element 생성
+    table.setAttribute("id", "classTable");
+
+    // table row
+    var tr = table.insertRow(-1); // table의 마지막에 새로운 행 추가
+
+    // table header
+    for (var h = 0; h < this.col.length; h++) {
+      var th = document.createElement("th");
+      th.innerHTML = this.col[h]; // table header가 하나의 행으로 완성됨.
+      tr.appendChild(th);
+    }
+
+    // table data
+    for (var i = 0; i < this.myClass.length; i++) {
+      // table에 한 행 추가
+      tr = table.insertRow(-1);
+      // table header의 길이만큼 순회하며 그에 매칭되는 데이터 가져오기
+      for (var j = 0; j < this.col.length; j++) {
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = this.myClass[i][this.col[j]];
+      }
+    }
+
+    var div = document.getElementById("container");
+    div.innerHTML = "<h2>수강관리 앱<h2>";
+    div.appendChild(table);
   };
 })();
+
+crudApp.createTable();
 
 /*
 var div = document.getElementById("container");
