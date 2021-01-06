@@ -75,12 +75,49 @@ var crudApp = new (function () {
       tr.appendChild(this.td);
       var btDelete = document.createElement("input");
       btDelete.setAttribute("type", "button");
-      btDelete.setAttribute("value", "update");
+      btDelete.setAttribute("value", "delete");
       btDelete.setAttribute("id", "delete" + i);
       btDelete.setAttribute("style", "background-color:#ED5650");
       btDelete.setAttribute("onclick", "crudApp.delete(this)");
       this.td.appendChild(btDelete);
     }
+
+    // 입력 행 추가
+    tr = table.insertRow(-1);
+    for (var j = 0; j < this.col.length; j++) {
+      var newCell = tr.insertCell(-1);
+      if (j >= 1) {
+        if (j == 2) {
+          // 선택 항목 생성
+          // select tag로 option tag 감싸주기
+          var select = document.createElement("select");
+          select.innerHTML = `<option value=""></option>`;
+          // this.Category 순회
+          for (var k = 0; k < this.Category.length; k++) {
+            select.innerHTML =
+              select.innerHTML +
+              `<option value="${this.Category[k]}">${this.Category[k]}</option>`;
+          }
+          newCell.appendChild(select);
+        } else {
+          var tBox = document.createElement("input");
+          tBox.setAttribute("type", "text");
+          tBox.setAttribute("value", "");
+          newCell.appendChild(tBox);
+        }
+      }
+    }
+
+    // create button
+    this.td = document.createElement("td");
+    tr.appendChild(this.td);
+    var btCreate = document.createElement("input");
+    btCreate.setAttribute("type", "button");
+    btCreate.setAttribute("value", "create");
+    btCreate.setAttribute("id", "new" + i);
+    btCreate.setAttribute("style", "background-color:#207DD1");
+    btCreate.setAttribute("onclick", "crudApp.create(this)");
+    this.td.appendChild(btCreate);
 
     var div = document.getElementById("container");
     div.innerHTML = "<h2>수강관리 앱<h2>";
