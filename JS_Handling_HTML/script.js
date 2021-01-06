@@ -75,16 +75,147 @@ var crudApp = new (function () {
       tr.appendChild(this.td);
       var btDelete = document.createElement("input");
       btDelete.setAttribute("type", "button");
-      btDelete.setAttribute("value", "update");
+      btDelete.setAttribute("value", "delete");
       btDelete.setAttribute("id", "delete" + i);
       btDelete.setAttribute("style", "background-color:#ED5650");
       btDelete.setAttribute("onclick", "crudApp.delete(this)");
       this.td.appendChild(btDelete);
     }
 
+    // 입력 행 추가
+    tr = table.insertRow(-1);
+    for (var j = 0; j < this.col.length; j++) {
+      var newCell = tr.insertCell(-1);
+      if (j >= 1) {
+        if (j == 2) {
+          // 선택 항목 생성
+          // select tag로 option tag 감싸주기
+          var select = document.createElement("select");
+          select.innerHTML = `<option value=""></option>`;
+          // this.Category 순회
+          for (var k = 0; k < this.Category.length; k++) {
+            select.innerHTML =
+              select.innerHTML +
+              `<option value="${this.Category[k]}">${this.Category[k]}</option>`;
+          }
+          newCell.appendChild(select);
+        } else {
+          var tBox = document.createElement("input");
+          tBox.setAttribute("type", "text");
+          tBox.setAttribute("value", "");
+          newCell.appendChild(tBox);
+        }
+      }
+    }
+
+    // create button
+    this.td = document.createElement("td");
+    tr.appendChild(this.td);
+    var btCreate = document.createElement("input");
+    btCreate.setAttribute("type", "button");
+    btCreate.setAttribute("value", "create");
+    btCreate.setAttribute("id", "new" + i);
+    btCreate.setAttribute("style", "background-color:#207DD1");
+    btCreate.setAttribute("onclick", "crudApp.create(this)");
+    this.td.appendChild(btCreate);
+
     var div = document.getElementById("container");
     div.innerHTML = "<h2>수강관리 앱<h2>";
     div.appendChild(table);
+  };
+
+  // delete method
+  this.delete = (oButton) => {
+    // console.log(oButton); // delete button이 눌린 row에 해당하는 input tag
+    var targetIdx = oButton.parentNode.parentNode.rowIndex;
+    // console.log(targetIdx);
+    this.myClass.splice(targetIdx - 1, 1);
+    this.createTable();
+  };
+
+  // create method
+  this.create = (oButton) => {
+    var writtenIdx = oButton.parentNode.parentNode.rowIndex;
+    var trData = document.getElementById("classTable").rows[writtenIdx];
+
+    var obj = {};
+    // tr data에서 td 속의 key:value만 추출하여 obj에 저장
+    for (var i = 1; i < this.col.length; i++) {
+      var td = trData.getElementsByTagName("td")[i];
+      // console.log(td);
+      if (
+        td.childNodes[0].getAttribute("type") === "text" ||
+        td.childNodes[0].tagName === "SELECT" // HTML 문서에서는 원본 문서에 정의된 tag name과 달리 대문자로만 이루어진 값을 가져 옴.
+      ) {
+        var txtVal = td.childNodes[0].value;
+        // console.log(txtVal);
+        // txtVal은 사용자가 실제로 입력하고 선택한 값
+
+        if (txtVal != "") {
+          obj[this.col[i]] = txtVal;
+        } else {
+          obj = "";
+          alert("all fields must be inputted.");
+          break;
+        }
+      }
+    }
+
+    obj[this.col[0]] = this.myClass.length + 1; // 자동으로 새로운 ID값이 부여되어 obj의 0번째 index에 담김.
+    this.myClass.push(obj);
+    this.createTable();
+  };
+
+  // update method
+  this.update = (oButton) => {
+    var writtenIdx = oButton.parentNode.parentNode.rowIndex;
+    var trData = document.getElementById("classTable").rows[writtenIdx];
+
+    // 기존에 입력한 data 가져 오기
+    for (var i = 1; i < this.col.length; i++) {
+      // 기존에 입력한 data를 담은 새로운 input/select tag 렌더링
+      if (i === 2) {
+        var td = trData.getElementsByTagName("td")[i];
+        var select = document.createElement("select");
+        select.innerHTML = `<option value = "${td.innerText}">${td.innerText}</option>`;
+        for (var k = 0; k < this.Category.length; k++) {
+          select.innerHTML =
+            select.innerHTML +
+            `<option value = "${this.Category[k]}">${this.Category[k]}</option>`;
+        }
+        td.innerText = "";
+        td.appendChild(select);
+      } else {
+        var td = trData.getElementsByTagName("td")[i];
+        var input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("value", td.innerText);
+        td.innerText = "";
+        td.appendChild(input);
+      }
+    }
+
+    var btSave = document.getElementById("save" + (writtenIdx - 1));
+    btSave.setAttribute("style", "display: block; background-color: #2DBF64");
+    oButton.setAttribute("style", "display: none");
+  };
+
+  // save method
+  this.save = (oButton) => {
+    var writtenIdx = oButton.parentNode.parentNode.rowIndex;
+    var trData = document.getElementById("classTable").rows[writtenIdx];
+
+    // 새롭게 입력된 값으로 myClass 배열 갱신
+    for (var i = 1; i < this.col.length; i++) {
+      var td = trData.getElementsByTagName("td")[i];
+      if (
+        td.childNodes[0].getAttribute("type") === "text" ||
+        td.childNodes[0].tagName === "SELECT"
+      ) {
+        this.myClass[writtenIdx - 1][this.col[i]] = td.childNodes[0].value;
+      }
+    }
+    this.createTable();
   };
 })();
 
