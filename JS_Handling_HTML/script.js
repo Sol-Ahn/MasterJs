@@ -132,6 +132,39 @@ var crudApp = new (function () {
     this.myClass.splice(targetIdx - 1, 1);
     this.createTable();
   };
+
+  // create method
+  this.create = (oButton) => {
+    var writtenIdx = oButton.parentNode.parentNode.rowIndex;
+    var trData = document.getElementById("classTable").rows[writtenIdx];
+
+    var obj = {};
+    // tr data에서 td 속의 key:value만 추출하여 obj에 저장
+    for (var i = 1; i < this.col.length; i++) {
+      var td = trData.getElementsByTagName("td")[i];
+      // console.log(td);
+      if (
+        td.childNodes[0].getAttribute("type") === "text" ||
+        td.childNodes[0].tagName === "SELECT" // HTML 문서에서는 원본 문서에 정의된 tag name과 달리 대문자로만 이루어진 값을 가져 옴.
+      ) {
+        var txtVal = td.childNodes[0].value;
+        // console.log(txtVal);
+        // txtVal은 사용자가 실제로 입력하고 선택한 값
+
+        if (txtVal != "") {
+          obj[this.col[i]] = txtVal;
+        } else {
+          obj = "";
+          alert("all fields must be inputted.");
+          break;
+        }
+      }
+    }
+
+    obj[this.col[0]] = this.myClass.length + 1; // 자동으로 새로운 ID값이 부여되어 obj의 0번째 index에 담김.
+    this.myClass.push(obj);
+    this.createTable();
+  };
 })();
 
 crudApp.createTable();
