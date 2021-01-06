@@ -16,6 +16,7 @@ var crudApp = new (function () {
     // col에 table header에 해당하는 데이터를 삽입하는 코드
     // 비어있는 col 배열에 myClass 배열 속 객체들의 key값을 삽입
     for (var i = 0; i < this.myClass.length; i++) {
+      // 각 객체 속의 key값 순회
       for (var key in this.myClass[i]) {
         // key값을 col 배열에 담기
         // indexOf: 문자열 속에서 특정 문자열 검색
@@ -53,6 +54,8 @@ var crudApp = new (function () {
     div.appendChild(table);
   };
 })();
+
+crudApp.createTable();
 
 /*
 var div = document.getElementById("container");
