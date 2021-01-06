@@ -47,6 +47,38 @@ var crudApp = new (function () {
         var tabCell = tr.insertCell(-1);
         tabCell.innerHTML = this.myClass[i][this.col[j]];
       }
+
+      // button
+      // update button
+      this.td = document.createElement("td");
+      tr.appendChild(this.td);
+      var btUpdate = document.createElement("input");
+      btUpdate.setAttribute("type", "button");
+      btUpdate.setAttribute("value", "update");
+      btUpdate.setAttribute("id", "edit" + i);
+      btUpdate.setAttribute("style", "background-color:#44CCEB");
+      btUpdate.setAttribute("onclick", "crudApp.update(this)");
+      this.td.appendChild(btUpdate);
+
+      // save button
+      tr.appendChild(this.td);
+      var btSave = document.createElement("input");
+      btSave.setAttribute("type", "button");
+      btSave.setAttribute("value", "save");
+      btSave.setAttribute("id", "save" + i);
+      btSave.setAttribute("style", "display:none");
+      btSave.setAttribute("onclick", "crudApp.save(this)");
+      this.td.appendChild(btSave);
+
+      this.td = document.createElement("td");
+      tr.appendChild(this.td);
+      var btDelete = document.createElement("input");
+      btDelete.setAttribute("type", "button");
+      btDelete.setAttribute("value", "update");
+      btDelete.setAttribute("id", "delete" + i);
+      btDelete.setAttribute("style", "background-color:#ED5650");
+      btDelete.setAttribute("onclick", "crudApp.delete(this)");
+      this.td.appendChild(btDelete);
     }
 
     var div = document.getElementById("container");
