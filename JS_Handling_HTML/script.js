@@ -165,6 +165,36 @@ var crudApp = new (function () {
     this.myClass.push(obj);
     this.createTable();
   };
+
+  // update method
+  this.update = (oButton) => {
+    var writtenIdx = oButton.parentNode.parentNode.rowIndex;
+    var trData = document.getElementById("classTable").rows[writtenIdx];
+
+    // 기존에 입력한 data 가져 오기
+    for (var i = 1; i < this.col.length; i++) {
+      // 기존에 입력한 data를 담은 새로운 input/select tag 렌더링
+      if (i === 2) {
+        var td = trData.getElementsByTagName("td")[i];
+        var select = document.createElement("select");
+        select.innerHTML = `<option value = "${td.innerText}">${td.innerText}</option>`;
+        for (var k = 0; k < this.Category.length; k++) {
+          select.innerHTML =
+            select.innerHTML +
+            `<option value = "${this.Category[k]}">${this.Category[k]}</option>`;
+        }
+        td.innerText = "";
+        td.appendChild(select);
+      } else {
+        var td = trData.getElementsByTagName("td")[i];
+        var input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("value", td.innerText);
+        td.innerText = "";
+        td.appendChild(input);
+      }
+    }
+  };
 })();
 
 crudApp.createTable();
