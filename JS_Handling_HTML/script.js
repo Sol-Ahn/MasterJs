@@ -122,6 +122,10 @@ var crudApp = new (function () {
     var div = document.getElementById("container");
     div.innerHTML = "<h2>수강관리 앱<h2>";
     div.appendChild(table);
+
+    // getElementByID: 주어진 문자열과 일치하는 id 속성을 가진 요소를 찾고, 이를 나타내는 element 객체를 반환함.
+    // innerHTML: 요소 내에 포함된 HTML 또는 XML 마크업을 가져오거나 설정함.
+    // appendChild: 새로운 노드를 해당 노드의 자식 노드 리스트의 가장 마지막에 추가함.
   };
 
   // delete method
@@ -220,12 +224,3 @@ var crudApp = new (function () {
 })();
 
 crudApp.createTable();
-
-/*
-var div = document.getElementById("container");
-// getElementByID: 주어진 문자열과 일치하는 id 속성을 가진 요소를 찾고, 이를 나타내는 element 객체를 반환함.
-div.innerHTML = "<h1>수강관리 앱</h1>";
-// innerHTML: 요소 내에 포함된 HTML 또는 XML 마크업을 가져오거나 설정함.
-div.appendChild(table);
-// appendChild: 새로운 노드를 해당 노드의 자식 노드 리스트의 가장 마지막에 추가함.
-*/
