@@ -123,6 +123,15 @@ var crudApp = new (function () {
     div.innerHTML = "<h2>수강관리 앱<h2>";
     div.appendChild(table);
   };
+
+  // delete method
+  this.delete = (oButton) => {
+    // console.log(oButton); // delete button이 눌린 row에 해당하는 input tag
+    var targetIdx = oButton.parentNode.parentNode.rowIndex;
+    // console.log(targetIdx);
+    this.myClass.splice(targetIdx - 1, 1);
+    this.createTable();
+  };
 })();
 
 crudApp.createTable();
