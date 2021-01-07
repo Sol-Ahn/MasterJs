@@ -2,7 +2,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-function crawler() {
+function newsCrawler() {
   const url = "https://news.daum.net/ranking/popular"; // get request를 보낼 url
 
   // axios로 get request 보내기
@@ -30,4 +30,4 @@ function crawler() {
   });
 }
 
-crawler();
+newsCrawler();
